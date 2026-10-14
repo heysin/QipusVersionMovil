@@ -1,3 +1,6 @@
+project.ext.react = [
+  enableHermes: true  // <- here | clean and rebuild if changing
+]
 buildscript {
     ext {
         buildToolsVersion = "36.0.0"
@@ -18,4 +21,5 @@ buildscript {
     }
 }
 
+apply plugin: "expo-root-project"
 apply plugin: "com.facebook.react.rootproject"

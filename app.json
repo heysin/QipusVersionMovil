@@ -1,4 +1,7 @@
 {
   "name": "QipusMovil",
-  "displayName": "QipusMovil"
+  "displayName": "QipusMovil",
+  "plugins": [
+    "expo-asset"
+  ]
 }
