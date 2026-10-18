@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import {  StyleSheet,  View,  Text,  TextInput,  TouchableOpacity,  ActivityIndicator,  SafeAreaView,  ScrollView, Alert, Modal,} from "react-native";
+import {  StyleSheet,  View,  Text,  TouchableOpacity,  ActivityIndicator,  SafeAreaView,  ScrollView, Alert, Modal,} from "react-native";
 import comprobanteVentasService from "../../servicios/comprobantesVentas/comprobanteVentas";
 import { comprobantesVentasFilters } from "../../models/comprobanteVentas";
 import { getCurrentPeriod } from "../../utils/periodo";
+import PeriodoPicker from "../../components/PeriodoPicker";
 import { INDICATOR_CONSTANTS_ARCHIVOS } from "../../constant/indicadorConstantArchivos";
 import Indicator from "../../components/indicadorArchivos";
 import EmpresaDropdown from "../../components/EmpresaDropdown";
@@ -208,15 +209,11 @@ export default function ComprobantesVentas() {
           />
         </View>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Periodo (AAAAMM):</Text>
-          <TextInput
-            style={styles.input}
+          <Text style={styles.label}>Periodo:</Text>
+          <PeriodoPicker
             value={periodo}
-            onChangeText={setPeriodo}
-            onFocus={() => setCompanyMenuVisible(false)}
-            keyboardType="numeric"
-            maxLength={6}
-            placeholder="AAAAMM"
+            onChange={setPeriodo}
+            onOpen={() => setCompanyMenuVisible(false)}
           />
         </View>
         <TouchableOpacity

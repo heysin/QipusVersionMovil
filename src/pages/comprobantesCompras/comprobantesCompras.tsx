@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import {  StyleSheet,  View,  Text,  TextInput,  TouchableOpacity,  ActivityIndicator,  SafeAreaView,  ScrollView, Alert, } from "react-native";
+import {  StyleSheet,  View,  Text,  TouchableOpacity,  ActivityIndicator,  SafeAreaView,  ScrollView, Alert, } from "react-native";
 import comprobanteComprasService from "../../servicios/comprobantesCompras/comprobanteCompras";
 import { comprobantesComprasFilters } from "../../models/comprobantesCompras";
 import { getCurrentPeriod } from "../../utils/periodo";
@@ -12,6 +12,7 @@ import { INDICATOR_CONSTANTS_ARCHIVOS } from "../../constant/indicadorConstantAr
 import Indicator from "../../components/indicadorArchivos";
 import EmpresaDropdown from "../../components/EmpresaDropdown";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import PeriodoPicker from "../../components/PeriodoPicker";
 
 export default function ComprobantesCompras() {
   const insets = useSafeAreaInsets();
@@ -249,15 +250,10 @@ const getIconColor = (estado: unknown) => {
               </Text>
             </TouchableOpacity>
             <View style={[styles.inputGroup, styles.periodInputGroup]}>
-              {/* <Text style={styles.label}>Periodo:</Text> */}
-              <TextInput
-                style={styles.input}
+              <PeriodoPicker
                 value={periodo}
-                onChangeText={setPeriodo}
-                onFocus={() => setCompanyModalVisible(false)}
-                keyboardType="numeric"
-                maxLength={6}
-                placeholder="AAAAMM"
+                onChange={setPeriodo}
+                onOpen={() => setCompanyModalVisible(false)}
               />
             </View>
             <TouchableOpacity
@@ -503,7 +499,7 @@ const styles = StyleSheet.create({
   },
   periodInputGroup: {
     flex: 0,
-    width: 90,
+    width: 130,
     marginRight: 0,
   },
   companyInputGroup: {

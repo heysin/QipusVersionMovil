@@ -7,6 +7,7 @@ import ComprobantesCompras from "./comprobantesCompras/comprobantesCompras";
 import ComprobantesVentas from "./ComprobantesVentas/comprobantesVentas";
 import ReporteConsolidado from "./reportes/reporteConsolidado";
 import empresas from "./Empresas/empresas";
+import monitorDeclaraciones from "./monitorDeclaraciones/monitorDeclaraciones";
 
 const Drawer = createDrawerNavigator();
 
@@ -36,14 +37,29 @@ const drawerTheme = {
 };
 
 const CustomDrawerContent = (props: any) => {
-  const { logout } = useContext(LoginContext);
+  const { user, logout } = useContext(LoginContext);
+  const userName =
+    [user?.nombre, user?.apellidos].filter(Boolean).join(" ") || user?.dni || "Usuario";
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
+      {/* 1. Cuadro Morado con QIPUS Centrado */}
       <View style={styles.drawerHeader}>
         <Text style={styles.drawerHeaderText}>QIPUS</Text>
       </View>
+
+      {/* 2. Usuario Centrado fuera del cuadro morado */}
+      <View style={styles.userOuterSection}>
+        <Icon name="account-circle-outline" size={35} color="#743484" style={styles.userIcon} />
+        <Text style={styles.userNameText} numberOfLines={1}>
+          {userName}
+        </Text>
+      </View>
+
+      {/* 3. Menús debajo de la línea divisoria */}
       <DrawerItemList {...props} />
+
+      {/* 4. Footer Cerrar sesión */}
       <View style={styles.drawerFooter}>
         <TouchableOpacity style={styles.drawerLogoutButton} onPress={() => confirmLogout(logout)}>
           <Text style={styles.drawerLogoutText}>Cerrar sesión</Text>
@@ -70,7 +86,7 @@ const UserHeader = () => {
         accessibilityRole="button"
         accessibilityLabel="Abrir menú de usuario"
       >
-        <Icon name="account-circle-outline" size={22} color="#FFFFFF" style={styles.userIcon} />
+        <Icon name="account-circle-outline" size={22} color="#FFFFFF" style={styles.headerUserIcon} />
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>Bienvenido:</Text>
           <Text style={styles.userName} numberOfLines={1}>{userName}</Text>
@@ -134,6 +150,15 @@ const MenuPage = () => {
           ),
         }}
       />
+       <Drawer.Screen
+        name="Monitor de declaraciones"
+        component={monitorDeclaraciones}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <Icon name="gauge" size={22} color={focused ? "#743484" : "#4A5568"} />
+          ),
+        }}
+      />
       <Drawer.Screen
         name="Reportes"
         component={ReporteConsolidado}
@@ -148,19 +173,43 @@ const MenuPage = () => {
 };
 
 const styles = StyleSheet.create({
+  // Cuadro morado con QIPUS centrado
   drawerHeader: {
     backgroundColor: "#743484",
     paddingVertical: 18,
     paddingHorizontal: 16,
-    marginBottom: 8,
+    marginBottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
   drawerHeaderText: {
     color: "#FFFFFF",
     fontSize: 24,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     letterSpacing: 1,
   },
+
+  // Sección del usuario centrada horizontalmente
+  userOuterSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    //justifyContent: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E2E8F0",
+    marginBottom: 8,
+  },
+  userIcon: {
+    marginRight: 8,
+  },
+  userNameText: {
+    color: "#2D3748",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+
   drawerContent: {
     flexGrow: 1,
   },
@@ -185,6 +234,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
   },
+
+  // Header superior
   userHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -196,7 +247,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  userIcon: {
+  headerUserIcon: {
     fontSize: 22,
     marginRight: 6,
   },

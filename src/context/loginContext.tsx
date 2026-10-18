@@ -3,7 +3,7 @@ import { Alert, AppState, StyleSheet, View } from "react-native";
 import { UsuarioResponse } from "../models/user";
 import { clearToken } from "../utils/storage";
 
-const INACTIVITY_TIMEOUT_MS = 5 * 60 * 1000;
+const INACTIVITY_TIMEOUT_MS = 50 * 60 * 1000;//5 * 60 * 1000;
 
 export const LoginContext = createContext({
   isLoggedIn: false,
